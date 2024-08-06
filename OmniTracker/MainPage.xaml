@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:OmniTracker"
+             x:Class="OmniTracker.MainPage"
+             x:DataType="local:MainPageViewModel">
+    <VerticalStackLayout Spacing="30" Padding="20">
+        <Label Text="OmniTracker" Style="{StaticResource Headline}" HorizontalOptions="Center"/>
+        <Grid ColumnSpacing="10" ColumnDefinitions="*,Auto" HorizontalOptions="Fill">
+            <Entry Placeholder="Enter Tracker" Text="{Binding NewTrackerEntry}"/>
+            <Button Grid.Column="1" Text="Add new" Command="{Binding AddTrackerCommand}"/>
+        </Grid>
+        <CollectionView ItemsSource="{Binding Trackers}">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout ItemSpacing="2" Orientation="Vertical"/>
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="local:TrackerViewModel">
+                    <Border BackgroundColor="Transparent" StrokeThickness="2" StrokeShape="RoundRectangle 10,10,10,10" Stroke="{AppThemeBinding Dark={StaticResource PrimaryDark}, Light={StaticResource Primary}}" Padding="10">
+                        <FlyoutBase.ContextFlyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem Text="Decrement" 
+                                                    Command="{Binding DecrementCommand}"/>
+                                <MenuFlyoutItem Text="Reset" 
+                                                    Command="{Binding ResetCommand}"/>
+                                <MenuFlyoutItem Text="Delete" 
+                                                    Command="{Binding Source={RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type local:MainPageViewModel}}, Path=RemoveTrackerCommand}"
+                                                    CommandParameter="{Binding}"/>
+                            </MenuFlyout>
+                        </FlyoutBase.ContextFlyout>
+                        <Grid ColumnDefinitions="*, Auto, Auto" ColumnSpacing="10">
+                            <Label Text="{Binding Name}" Style="{StaticResource SubHeadline}" VerticalOptions="Center" HorizontalOptions="Start" LineBreakMode="TailTruncation"/>
+                            <Label Grid.Column="1" Text="{Binding Count}" Style="{StaticResource Headline}"  VerticalOptions="Center"/>
+                            <Button Grid.Column="2" Text="+" Command="{Binding IncrementCommand}" VerticalOptions="Center"/>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </VerticalStackLayout>
+</ContentPage>
