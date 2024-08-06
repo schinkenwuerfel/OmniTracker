@@ -16,24 +16,37 @@
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="local:TrackerViewModel">
-                    <Border BackgroundColor="Transparent" StrokeThickness="2" StrokeShape="RoundRectangle 10,10,10,10" Stroke="{AppThemeBinding Dark={StaticResource PrimaryDark}, Light={StaticResource Primary}}" Padding="10">
-                        <FlyoutBase.ContextFlyout>
-                            <MenuFlyout>
-                                <MenuFlyoutItem Text="Decrement" 
+                    <SwipeView Threshold="100">
+                        <SwipeView.LeftItems>
+                            <SwipeItem Text="Delete"
+                                       BackgroundColor="Red"
+                                       Command="{Binding Source={RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type local:MainPageViewModel}}, Path=RemoveTrackerCommand}"
+                                       CommandParameter="{Binding}"/>
+                        </SwipeView.LeftItems>
+                        <SwipeView.RightItems>
+                            <SwipeItem Text="Decrement"
+                                           BackgroundColor="{StaticResource PrimaryDark}"
+                                           Command="{Binding DecrementCommand}"/>
+                        </SwipeView.RightItems>
+                        <Border BackgroundColor="{StaticResource OffBlack}" StrokeThickness="2" StrokeShape="RoundRectangle 10,10,10,10" Stroke="{AppThemeBinding Dark={StaticResource PrimaryDark}, Light={StaticResource Primary}}" Padding="10">
+                            <FlyoutBase.ContextFlyout>
+                                <MenuFlyout>
+                                    <MenuFlyoutItem Text="Decrement" 
                                                     Command="{Binding DecrementCommand}"/>
-                                <MenuFlyoutItem Text="Reset" 
+                                    <MenuFlyoutItem Text="Reset" 
                                                     Command="{Binding ResetCommand}"/>
-                                <MenuFlyoutItem Text="Delete" 
+                                    <MenuFlyoutItem Text="Delete" 
                                                     Command="{Binding Source={RelativeSource Mode=FindAncestorBindingContext, AncestorType={x:Type local:MainPageViewModel}}, Path=RemoveTrackerCommand}"
                                                     CommandParameter="{Binding}"/>
-                            </MenuFlyout>
-                        </FlyoutBase.ContextFlyout>
-                        <Grid ColumnDefinitions="*, Auto, Auto" ColumnSpacing="10">
-                            <Label Text="{Binding Name}" Style="{StaticResource SubHeadline}" VerticalOptions="Center" HorizontalOptions="Start" LineBreakMode="TailTruncation"/>
-                            <Label Grid.Column="1" Text="{Binding Count}" Style="{StaticResource Headline}"  VerticalOptions="Center"/>
-                            <Button Grid.Column="2" Text="+" Command="{Binding IncrementCommand}" VerticalOptions="Center"/>
-                        </Grid>
-                    </Border>
+                                </MenuFlyout>
+                            </FlyoutBase.ContextFlyout>
+                            <Grid ColumnDefinitions="*, Auto, Auto" ColumnSpacing="10">
+                                <Label Text="{Binding Name}" Style="{StaticResource SubHeadline}" VerticalOptions="Center" HorizontalOptions="Start" LineBreakMode="TailTruncation"/>
+                                <Label Grid.Column="1" Text="{Binding Count}" Style="{StaticResource Headline}"  VerticalOptions="Center"/>
+                                <Button Grid.Column="2" Text="+" Command="{Binding IncrementCommand}" VerticalOptions="Center"/>
+                            </Grid>
+                        </Border>
+                    </SwipeView>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
